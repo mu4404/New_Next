@@ -13,6 +13,8 @@ type Todo = {
 export default function TodosPage() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState("");
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
 
   // 투두 목록 가져오기
   const fetchTodos = async () => {
@@ -41,6 +43,27 @@ export default function TodosPage() {
     await fetch(`/api/todos/${id}`, {
       method: "DELETE",
     });
+    fetchTodos();
+  };
+
+  // 투두 수정 시작
+  const handleEdit = async (todo: Todo) => {
+    setEditId(todo.id);
+    setEditText(todo.text);
+  };
+
+  // 투두 수정 저장
+  const handleUpdate = async () => {
+    if (!editId || !editText.trim()) return;
+
+    await fetch(`/api/todos/${editId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: editText }),
+    });
+
+    setEditId(null);
+    setEditText("");
     fetchTodos();
   };
 
@@ -74,13 +97,49 @@ export default function TodosPage() {
             key={todo.id}
             className="px-4 py-2 bg-white shadow rounded border text-gray-800 flex justify-between items-center"
           >
-            <span>{todo.text}</span>
-            <button
-              onClick={() => handleDelete(todo.id)}
-              className="m1-4 px-2 py-1 text-sm text-white bg-red-500 hover:bg-red-600 rounded"
-            >
-              🗑 삭제
-            </button>
+            {editId === todo.id ? (
+              <input
+                type="text"
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                className="flex-grow border rounded px-2 py-1 mr-2"
+              />
+            ) : (
+              <span>{todo.text}</span>
+            )}
+            <div className="flex items-center space-x-2 ml-4">
+              {editId === todo.id ? (
+                <>
+                  <button
+                    onClick={handleUpdate}
+                    className="text-sm px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                  >
+                    저장
+                  </button>
+                  <button
+                    onClick={() => setEditId(null)}
+                    className="text-sm px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500"
+                  >
+                    취소
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => handleEdit(todo)}
+                    className="text-sm px-2 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() => handleDelete(todo.id)}
+                    className="text-sm px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                  >
+                    삭제
+                  </button>
+                </>
+              )}
+            </div>
           </li>
         ))}
       </ul>
