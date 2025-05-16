@@ -6,6 +6,10 @@ import Link from "next/link";
 export default function HomePage() {
   const { data: session, status } = useSession();
 
+  if (status === "loading") {
+    return <div className="text-center mt-10">로딩 중...</div>;
+  }
+
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-800 p-6">
       <h1 className="text-4xl font-bold mb-6">
