@@ -14,7 +14,9 @@ export default function Header() {
       <nav className="flex items-center space-x-4">
         {status === "loading" ? null : status === "authenticated" ? (
           <>
-            <span className="text-gray-700">{session.user.email}</span>
+            <Link href="/mypage" className="text-gray-700 hover:underline">
+              {session.user.email}
+            </Link>
             <button
               onClick={() => signOut()}
               className="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
