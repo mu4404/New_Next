@@ -11,38 +11,16 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-800 p-6">
-      <h1 className="text-4xl font-bold mb-6">
-        {status === "authenticated"
-          ? `환영합니다, ${session.user.email}님! 👋`
-          : "Next.js + NextAuth 로그인 예제"}
-      </h1>
-
-      <div className="space-x-4">
-        {status === "authenticated" ? (
-          <button
-            onClick={() => signOut()}
-            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow"
-          >
-            로그아웃
-          </button>
-        ) : (
-          <>
-            <Link
-              href="/login"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow"
-            >
-              로그인
-            </Link>
-            <Link
-              href="/register"
-              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded shadow"
-            >
-              회원가입
-            </Link>
-          </>
-        )}
-      </div>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white text-gray-800 px-6">
+      <h1 className="text-5xl font-bold mb-4 text-blue-700">환영합니다 👋</h1>
+      <p className="text-lg text-gray-600 mb-8">
+        이 사이트는 Next.js와 NextAuth를 사용한 인증 예제입니다.
+      </p>
+      {status === "authenticated" && (
+        <p className="text-sm text-gray-500">
+          로그인된 사용자: {session.user.email}
+        </p>
+      )}
     </main>
   );
 }
