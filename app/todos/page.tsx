@@ -67,6 +67,19 @@ export default function TodosPage() {
     fetchTodos();
   };
 
+  // 체크박스 토글
+  const handleToggleComplete = async (todo: Todo) => {
+    await fetch(`/api/todos/${todo.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: todo.text,
+        completed: !todo.completed,
+      }),
+    });
+    fetchTodos();
+  };
+
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -97,16 +110,28 @@ export default function TodosPage() {
             key={todo.id}
             className="px-4 py-2 bg-white shadow rounded border text-gray-800 flex justify-between items-center"
           >
-            {editId === todo.id ? (
+            <div className="flex items-center space-x-2 flex-1">
+              {/* 체크박스 */}
               <input
-                type="text"
-                value={editText}
-                onChange={(e) => setEditText(e.target.value)}
-                className="flex-grow border rounded px-2 py-1 mr-2"
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => handleToggleComplete(todo)}
+                className="accent-green-600"
               />
-            ) : (
-              <span>{todo.text}</span>
-            )}
+              {/* 수정 or 텍스트 */}
+              {editId === todo.id ? (
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  className="flex-grow border rounded px-2 py-1 mr-2"
+                />
+              ) : (
+                <span>{todo.text}</span>
+              )}
+            </div>
+
+            {/* 버튼들 */}
             <div className="flex items-center space-x-2 ml-4">
               {editId === todo.id ? (
                 <>

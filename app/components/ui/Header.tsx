@@ -18,7 +18,7 @@ export default function Header() {
               {session.user.email}
             </Link>
             <button
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: "/" })}
               className="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
             >
               로그아웃

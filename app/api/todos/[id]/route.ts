@@ -41,7 +41,7 @@ export async function PUT(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { text } = await req.json();
+  const { text, completed } = await req.json();
 
   if (!text || typeof text !== "string") {
     return NextResponse.json({ error: "Invalid input" }, { status: 400 });
@@ -60,7 +60,7 @@ export async function PUT(
 
   const updated = await prisma.todo.update({
     where: { id: params.id },
-    data: { text },
+    data: { text, completed },
   });
 
   return NextResponse.json(updated);
