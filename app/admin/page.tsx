@@ -29,7 +29,7 @@ export default async function AdminPage() {
 
       <table className="w-full border-collapse border border-gray-300">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-gray-800 text-white">
             <th className="border p-2">이름</th>
             <th className="border p-2">이메일</th>
             <th className="border p-2">권한</th>
@@ -40,7 +40,14 @@ export default async function AdminPage() {
           {users.map((user) => (
             <tr key={user.id} className="text-center">
               <td className="border p-2">-</td>
-              <td className="border p-2">{user.email}</td>
+              <td className="border p-2">
+                <a
+                  href={`/admin/user/${user.id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {user.email}
+                </a>
+              </td>
               <td className="border p-2">{user.role}</td>
               <td className="border p-2">
                 {user.role !== "root" && (
