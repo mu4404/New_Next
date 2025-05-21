@@ -56,6 +56,15 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => {
+                      router.push("/posts/new");
+                      setOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+                  >
+                    ✏️ 글 작성
+                  </button>
+                  <button
+                    onClick={() => {
                       router.push("/mypage");
                       setOpen(false);
                     }}
