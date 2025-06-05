@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
+import Comments from "@/app/components/Comments";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
       <div className="text-lg leading-relaxed whitespace-pre-wrap">
         {post.content}
       </div>
+      <Comments postId={post.id} />
       {isAuthor && (
         <div className="mt-6 flex gap-4">
           <Link
