@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
-
-const prisma = new PrismaClient();
 
 export default async function PostPage() {
   const posts = await prisma.post.findMany({
@@ -22,7 +20,7 @@ export default async function PostPage() {
       </Link>
 
       {posts.length === 0 ? (
-        <p className="text-gray-500">게이슬이 아직 없습니다.</p>
+        <p className="text-gray-500">게시글이 아직 없습니다.</p>
       ) : (
         <ul className="space-y-4">
           {posts.map((post) => (
